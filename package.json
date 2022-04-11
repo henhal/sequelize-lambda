@@ -1,6 +1,6 @@
 {
   "name": "sequelize-lambda",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A small wrapper for configuring and managing Sequelize in AWS Lambda functions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
