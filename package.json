@@ -1,0 +1,39 @@
+{
+  "name": "sequelize-lambda",
+  "version": "1.0.0",
+  "description": "A small wrapper for configuring and managing Sequelize in AWS Lambda functions",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henhal/sequelize-lambda.git"
+  },
+  "keywords": [
+    "Sequelize",
+    "AWS",
+    "Lambda",
+    "RDS",
+    "database",
+    "connection",
+    "pool"
+  ],
+  "author": "Henrik Hall",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/henhal/sequelize-lambda/issues"
+  },
+  "homepage": "https://github.com/henhal/sequelize-lambda#readme",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.93",
+    "sequelize": "^6.18.0"
+  },
+  "peerDependencies": {
+    "sequelize": "^6"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
