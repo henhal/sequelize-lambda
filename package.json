@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "lint": "eslint src --ext js,ts --max-warnings 0",
     "prepublish": "yarn clean && yarn build && yarn lint"
   },
