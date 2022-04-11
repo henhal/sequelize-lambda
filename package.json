@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext js,ts --max-warnings 0",
+    "prepublish": "yarn clean && yarn build && yarn lint"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,11 @@
   "homepage": "https://github.com/henhal/sequelize-lambda#readme",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.93",
-    "sequelize": "^6.18.0"
+    "@typescript-eslint/eslint-plugin": "^4.21.0",
+    "@typescript-eslint/parser": "^4.21.0",
+    "eslint": "^7.23.0",
+    "sequelize": "^6.18.0",
+    "typescript": "^4.6.3"
   },
   "peerDependencies": {
     "sequelize": "^6"

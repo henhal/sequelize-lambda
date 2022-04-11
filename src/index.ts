@@ -31,14 +31,11 @@ export default class SequelizeManager {
     }
   };
 
-  private constructor() {
-  }
-
   static get(): Sequelize | undefined {
     return this.sequelize;
   }
 
-  static create<Args extends any[]>(Sequelize: new (...args: Args) => Sequelize, ...args: Args) {
+  static create<Args extends any[]>(Sequelize: new (...args: Args) => Sequelize, ...args: Args): Sequelize {
     addOptions(args, this.options);
 
     return this.sequelize = new Sequelize(...args);
