@@ -19,6 +19,10 @@ function addOptions(args: any[], options: unknown) {
   args.push(options);
 }
 
+/**
+ * A sequelize manager handling a sequelize instance with options ideal for running in AWS Lambda and handling the
+ * Lambda lifecycle to re-use sequelize instances across Lambda invocations.
+ */
 export default class SequelizeManager {
   private static sequelize: Sequelize | undefined;
   private static readonly options = {
@@ -31,16 +35,38 @@ export default class SequelizeManager {
     }
   };
 
+  /**
+   * Get the sequelize instance created by `create` or `register`` or undefined if none created yet.
+   */
   static get(): Sequelize | undefined {
     return this.sequelize;
   }
 
+  /**
+   * Create a sequelize instance using the supplied constructor function with the supplied args, and
+   * additional options ideal for running in AWS Lambda added to the args.
+   * @param Sequelize Constructor function
+   * @param args Arguments
+   */
   static create<Args extends any[]>(Sequelize: new (...args: Args) => Sequelize, ...args: Args): Sequelize {
     addOptions(args, this.options);
 
     return this.sequelize = new Sequelize(...args);
   }
 
+  /**
+   * Create a sequelize instance using the supplied factory function which should use the supplied
+   * options, ideal for running in AWS Lambda added to the args.
+   * @param factory Factory function
+   */
+  static register(factory: (options: typeof SequelizeManager.options) => Sequelize): Sequelize {
+    return this.sequelize = factory(this.options);
+  }
+
+  /**
+   * Initialize any sequelize instance for a new Lambda invocation. If no instance is created/registered,
+   * nothing happens.
+   */
   static init(): boolean {
     const cm = this.sequelize?.connectionManager;
 
@@ -55,6 +81,9 @@ export default class SequelizeManager {
     return true;
   }
 
+  /**
+   * Call before finishing a Lambda invocation to close and clean up connections etc.
+   */
   static async close(): Promise<boolean> {
     const cm = this.sequelize?.connectionManager;
 
@@ -64,6 +93,10 @@ export default class SequelizeManager {
     return true;
   }
 
+  /**
+   * Wrap a Lambda handler function to automatically add calls to `init` and `close` around it.
+   * @param handler
+   */
   static wrapHandler<E, R>(handler: Handler<E, R>): Handler<E, R> {
     return async (event, context) => {
       try {
