@@ -68,3 +68,11 @@ const handler: Handler<SomeEvent, SomeResult> = (event, context) => {
 // wrapped handler with code added at start end end of function invocation
 export default SequelizeManager.wrapHandler(handler);
 ```
+
+Note: Due to how TypeScript handles constructor parameters for overloaded constructors, the `create`
+function may be problematic to use. As an alternative, the `register` function is offered, to allow the
+client to invoke the constructor using the supplied sequelize pool options:
+
+```
+SequelizeManager.register(options => new Sequelize('mydatabase', 'myusername', 'mypassword', options));
+```
